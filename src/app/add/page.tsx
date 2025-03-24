@@ -15,7 +15,7 @@ export default function AddEmployee() {
   useEffect(() => {
     fetch('/api/managers')
       .then((res) => res.json())
-      .then((data) => setManagers(data));
+      .then((data: Manager[]) => setManagers(data));
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -36,35 +36,125 @@ export default function AddEmployee() {
 
   return (
     <Layout>
-      <h1 className="text-3xl font-bold mb-6">Add Employee</h1>
-      <form onSubmit={handleSubmit} className="space-y-4 max-w-lg">
-        <input type="text" placeholder="Full Name" value={form.fullName} onChange={(e) => setForm({ ...form, fullName: e.target.value })} className="border p-2 w-full rounded" required />
-        <input type="text" placeholder="Employee ID" value={form.employeeId} onChange={(e) => setForm({ ...form, employeeId: e.target.value })} className="border p-2 w-full rounded" required />
-        <input type="email" placeholder="Email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="border p-2 w-full rounded" required />
-        <input type="text" placeholder="Phone Number" value={form.phoneNumber} onChange={(e) => setForm({ ...form, phoneNumber: e.target.value })} className="border p-2 w-full rounded" />
-        <input type="text" placeholder="Job Title" value={form.jobTitle} onChange={(e) => setForm({ ...form, jobTitle: e.target.value })} className="border p-2 w-full rounded" />
-        <select value={form.department} onChange={(e) => setForm({ ...form, department: e.target.value })} className="border p-2 w-full rounded">
-          <option value="">Select Department</option>
-          <option value="HR">HR</option>
-          <option value="Engineering">Engineering</option>
-          <option value="Sales">Sales</option>
-        </select>
-        <input type="date" value={form.hireDate} onChange={(e) => setForm({ ...form, hireDate: e.target.value })} className="border p-2 w-full rounded" />
-        <input type="number" placeholder="Salary" value={form.salary} onChange={(e) => setForm({ ...form, salary: e.target.value })} className="border p-2 w-full rounded" />
-        <select value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })} className="border p-2 w-full rounded">
-          <option value="Active">Active</option>
-          <option value="Inactive">Inactive</option>
-        </select>
-        <select value={form.managerId} onChange={(e) => setForm({ ...form, managerId: e.target.value })} className="border p-2 w-full rounded">
-          <option value="">Select Manager</option>
-          {managers.map((m) => (
-            <option key={m.id} value={m.id}>{m.fullName} ({m.level})</option>
-          ))}
-        </select>
-        {error && <p className="text-red-500">{error}</p>}
-        <div className="space-x-4">
-          <button type="submit" className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Save</button>
-          <button type="button" onClick={() => router.push('/employees')} className="bg-gray-300 p-2 rounded hover:bg-gray-400">Cancel</button>
+      <h1 className="text-3xl font-bold text-gray-800 mb-6">Add Employee</h1>
+      <form onSubmit={handleSubmit} className="bg-white text-black p-6 rounded-lg shadow-md max-w-2xl space-y-4">
+        <div>
+          <label className="block text-gray-700 font-medium mb-1">Full Name</label>
+          <input
+            type="text"
+            value={form.fullName}
+            onChange={(e) => setForm({ ...form, fullName: e.target.value })}
+            className="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-gray-700 font-medium mb-1">Employee ID</label>
+          <input
+            type="text"
+            value={form.employeeId}
+            onChange={(e) => setForm({ ...form, employeeId: e.target.value })}
+            className="text-black w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-gray-700 font-medium mb-1">Email</label>
+          <input
+            type="email"
+            value={form.email}
+            onChange={(e) => setForm({ ...form, email: e.target.value })}
+            className=" w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-gray-700 font-medium mb-1">Phone Number</label>
+          <input
+            type="text"
+            value={form.phoneNumber}
+            onChange={(e) => setForm({ ...form, phoneNumber: e.target.value })}
+            className="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+        </div>
+        <div>
+          <label className="block text-gray-700 font-medium mb-1">Job Title</label>
+          <input
+            type="text"
+            value={form.jobTitle}
+            onChange={(e) => setForm({ ...form, jobTitle: e.target.value })}
+            className="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+        </div>
+        <div>
+          <label className="block text-gray-700 font-medium mb-1">Department</label>
+          <select
+            value={form.department}
+            onChange={(e) => setForm({ ...form, department: e.target.value })}
+            className="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
+            <option value="">Select Department</option>
+            <option value="HR">HR</option>
+            <option value="Engineering">Engineering</option>
+            <option value="Sales">Sales</option>
+          </select>
+        </div>
+        <div>
+          <label className="block text-gray-700 font-medium mb-1">Hire Date</label>
+          <input
+            type="date"
+            value={form.hireDate}
+            onChange={(e) => setForm({ ...form, hireDate: e.target.value })}
+            className="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+        </div>
+        <div>
+          <label className="block text-gray-700 font-medium mb-1">Salary</label>
+          <input
+            type="number"
+            value={form.salary}
+            onChange={(e) => setForm({ ...form, salary: e.target.value })}
+            className="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+        </div>
+        <div>
+          <label className="block text-gray-700 font-medium mb-1">Status</label>
+          <select
+            value={form.status}
+            onChange={(e) => setForm({ ...form, status: e.target.value })}
+            className="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+          </select>
+        </div>
+        <div>
+          <label className="block text-gray-700 font-medium mb-1">Manager</label>
+          <select
+            value={form.managerId}
+            onChange={(e) => setForm({ ...form, managerId: e.target.value })}
+            className="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          >
+            <option value="">Select Manager</option>
+            {managers.map((m) => (
+              <option key={m.id} value={m.id}>
+                {m.fullName} ({m.level})
+              </option>
+            ))}
+          </select>
+        </div>
+        {error && <p className="text-red-600">{error}</p>}
+        <div className="flex gap-4">
+          <button type="submit" className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+            Save
+          </button>
+          <button
+            type="button"
+            onClick={() => router.push('/employees')}
+            className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition"
+          >
+            Cancel
+          </button>
         </div>
       </form>
     </Layout>

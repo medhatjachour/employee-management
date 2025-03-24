@@ -1,8 +1,8 @@
 import prisma from '@/app/lib/prisma';
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
-  const { id } = params;
+export async function GET(req: NextRequest, { params }: {params: Promise<{ id: string }> }) {
+  const { id } = await params;
   try {
     const employee = await prisma.employee.findUnique({
       where: { id: Number(id) },
@@ -16,8 +16,8 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
   }
 }
 
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
-  const { id } = params;
+export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }>  }) {
+    const { id } = await params;
   const body = await req.json();
   const { fullName, employeeId, email, phoneNumber, jobTitle, department, hireDate, salary, status, managerId, updatedById } = body;
   try {
@@ -45,8 +45,8 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   }
 }
 
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
-  const { id } = params;
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }>  }) {
+    const { id } = await params;
   try {
     await prisma.employee.delete({ where: { id: Number(id) } });
     return new NextResponse(null, { status: 204 });

@@ -1,5 +1,15 @@
 import prisma from '@/app/lib/prisma';
 import { NextRequest, NextResponse } from 'next/server';
+import { Prisma } from '@prisma/client';
+
+// Utility function to normalize status to EmployeeStatus enum
+function normalizeStatus(status: string): Prisma.EmployeeStatus {
+  const upperStatus = status.toUpperCase();
+  if (upperStatus === 'ACTIVE' || upperStatus === 'INACTIVE') {
+    return upperStatus as Prisma.EmployeeStatus;
+  }
+  throw new Error('Invalid status value. Must be "ACTIVE" or "INACTIVE"');
+}
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -11,19 +21,14 @@ export async function GET(req: NextRequest) {
   const managerId = searchParams.get('managerId');
   const skip = (page - 1) * limit;
 
-  const where: {
-    OR: { fullName?: { contains: string, mode: 'insensitive' }, employeeId?: { contains: string, mode: 'insensitive' }, jobTitle?: { contains: string, mode: 'insensitive' } }[],
-    department?: string,
-    status?: string,
-    managerId?: number | null
-  } = {
+  const where: Prisma.EmployeeWhereInput = {
     OR: [
-      { fullName: { contains: search, mode: 'insensitive' } },
-      { employeeId: { contains: search, mode: 'insensitive' } },
-      { jobTitle: { contains: search, mode: 'insensitive' } },
+      { fullName: { contains: search } },
+      { employeeId: { contains: search } },
+      { jobTitle: { contains: search } },
     ],
     ...(department && { department }),
-    ...(status && { status }),
+    ...(status && { status: normalizeStatus(status) }), // Normalize status
     ...(managerId && { managerId: Number(managerId) }),
   };
 
@@ -40,29 +45,55 @@ export async function GET(req: NextRequest) {
     ]);
     return NextResponse.json({ employees, total, pages: Math.ceil(total / limit) });
   } catch (error) {
-    console.log(error)
+    console.error('GET /api/employees error:', error);
     return NextResponse.json({ error: 'Failed to fetch employees' }, { status: 500 });
   }
 }
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { fullName, employeeId, email, phoneNumber, jobTitle, department, hireDate, salary, status, managerId, addedById } = body;
+  const {
+    fullName,
+    employeeId,
+    email,
+    phoneNumber,
+    jobTitle,
+    department,
+    hireDate,
+    salary,
+    status,
+    managerId,
+    addedById,
+  } = body as {
+    fullName: string;
+    employeeId: string;
+    email: string;
+    phoneNumber?: string;
+    jobTitle: string;
+    department: string;
+    hireDate: string;
+    salary: string | number;
+    status?: string;
+    managerId?: string | number;
+    addedById: string | number;
+  };
+
   if (!fullName || !employeeId || !email || !addedById) {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
   }
+
   try {
     const employee = await prisma.employee.create({
       data: {
         fullName,
         employeeId,
         email,
-        phoneNumber,
+        phoneNumber: phoneNumber || null,
         jobTitle,
         department,
         hireDate: new Date(hireDate),
-        salary: parseFloat(salary),
-        status,
+        salary: typeof salary === 'string' ? parseFloat(salary) : salary || 0.00,
+        status: status ? normalizeStatus(status) : 'ACTIVE', // Normalize or default to 'ACTIVE'
         managerId: managerId ? Number(managerId) : null,
         addedById: Number(addedById),
         updatedById: Number(addedById),
@@ -71,7 +102,7 @@ export async function POST(req: NextRequest) {
     });
     return NextResponse.json(employee, { status: 201 });
   } catch (error) {
-    console.log(error)
+    console.error('POST /api/employees error:', error);
     return NextResponse.json({ error: 'Failed to create employee' }, { status: 500 });
   }
 }

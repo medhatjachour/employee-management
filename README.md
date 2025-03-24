@@ -5,8 +5,9 @@ A full-stack CRUD app for managing employees and managers, built with Next.js, P
 ## Setup
 1. Clone the repo: `git clone <your-repo-url>`
 2. Install dependencies: `npm install`
-3. Set up the database: `npx prisma migrate dev --name init`
-4. (Optional) Seed data: `npx prisma db seed --preview-feature`
+3. Set up the database: `npx prisma generate`
+35. Set up the database: `npx prisma migrate dev --name init`
+4. (Optional) Seed data: `npm run seed`
 5. Run the app: `npm run dev`
 <!-- npx prisma db seed --preview-feature -->
 ## Features

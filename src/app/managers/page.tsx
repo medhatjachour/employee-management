@@ -1,8 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Layout from '../../components/Layout';
-
-type Manager = { id: number; fullName: string; managerId: string; email: string; level: string };
+import { Manager } from '../lib/type';
 
 export default function Managers() {
   const [managers, setManagers] = useState<Manager[]>([]);
@@ -10,32 +9,34 @@ export default function Managers() {
   useEffect(() => {
     fetch('/api/managers')
       .then((res) => res.json())
-      .then((data) => setManagers(data));
+      .then((data: Manager[]) => setManagers(data));
   }, []);
 
   return (
     <Layout>
-      <h1 className="text-3xl font-bold mb-6">Managers</h1>
-      <table className="w-full border-collapse">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="border p-2">Name</th>
-            <th className="border p-2">Manager ID</th>
-            <th className="border p-2">Email</th>
-            <th className="border p-2">Level</th>
-          </tr>
-        </thead>
-        <tbody>
-          {managers.map((manager) => (
-            <tr key={manager.id}>
-              <td className="border p-2">{manager.fullName}</td>
-              <td className="border p-2">{manager.managerId}</td>
-              <td className="border p-2">{manager.email}</td>
-              <td className="border p-2">{manager.level}</td>
+      <h1 className="text-3xl font-bold text-gray-800 mb-6">Managers</h1>
+      <div className="bg-white rounded-lg shadow-md overflow-x-auto">
+        <table className="w-full border-collapse">
+          <thead>
+            <tr className="bg-gray-200 text-gray-700">
+              <th className="p-3 text-left">Name</th>
+              <th className="p-3 text-left">Manager ID</th>
+              <th className="p-3 text-left">Email</th>
+              <th className="p-3 text-left">Level</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {managers.map((manager) => (
+              <tr key={manager.id} className="hover:bg-gray-50 transition">
+                <td className="p-3 text-gray-600">{manager.fullName}</td>
+                <td className="p-3 text-gray-600">{manager.managerId}</td>
+                <td className="p-3 text-gray-600">{manager.email}</td>
+                <td className="p-3 text-gray-600">{manager.level}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </Layout>
   );
 }

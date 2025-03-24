@@ -2,11 +2,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Layout from '../../components/Layout';
-import { Manager } from '../lib/type';
-
-type Employee = {
-  id: number; fullName: string; employeeId: string; jobTitle: string; department: string; status: string; manager?: { fullName: string };
-};
+import { Employee, Manager } from '../lib/type';
 
 export default function Employees() {
   const [employees, setEmployees] = useState<Employee[]>([]);
@@ -22,10 +18,10 @@ export default function Employees() {
   useEffect(() => {
     fetch('/api/managers')
       .then((res) => res.json())
-      .then((data) => setManagers(data));
+      .then((data: Manager[]) => setManagers(data));
     fetch(`/api/employees?page=${page}&limit=${limit}&search=${search}&department=${department}&status=${status}&managerId=${managerId}`)
       .then((res) => res.json())
-      .then((data) => {
+      .then((data: { employees: Employee[]; total: number; pages: number }) => {
         setEmployees(data.employees);
         setTotalPages(data.pages);
       });
@@ -40,74 +36,115 @@ export default function Employees() {
 
   return (
     <Layout>
-      <h1 className="text-3xl font-bold mb-6">All Employees</h1>
-      <div className="mb-4 flex gap-4 flex-wrap">
+      <h1 className="text-3xl font-bold text-gray-800 mb-6">All Employees</h1>
+      <div className="mb-6 flex flex-col sm:flex-row gap-4">
         <input
           type="text"
           placeholder="Search by Name, ID, or Job Title"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="border p-2 rounded w-full md:w-auto"
+          className="border text-black border-gray-300 p-2 rounded-lg w-full sm:w-64 focus:outline-none focus:ring-2 focus:ring-indigo-500"
         />
-        <select value={department} onChange={(e) => setDepartment(e.target.value)} className="border p-2 rounded">
+        <select
+          value={department}
+          onChange={(e) => setDepartment(e.target.value)}
+          className="border text-black border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        >
           <option value="">All Departments</option>
           <option value="HR">HR</option>
           <option value="Engineering">Engineering</option>
           <option value="Sales">Sales</option>
         </select>
-        <select value={status} onChange={(e) => setStatus(e.target.value)} className="border p-2 rounded">
+        <select
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+          className="border text-black border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        >
           <option value="">All Statuses</option>
           <option value="Active">Active</option>
           <option value="Inactive">Inactive</option>
         </select>
-        <select value={managerId} onChange={(e) => setManagerId(e.target.value)} className="border p-2 rounded">
+        <select
+          value={managerId}
+          onChange={(e) => setManagerId(e.target.value)}
+          className="border text-black border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        >
           <option value="">All Managers</option>
-          {managers.map((m) => (
-            <option key={m.id} value={m.id}>{m.fullName}</option>
+          {managers?.map((m) => (
+            <option key={m.id} value={m.id}>
+              {m.fullName}
+            </option>
           ))}
         </select>
       </div>
-      <table className="w-full border-collapse">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="border p-2">Name</th>
-            <th className="border p-2">Employee ID</th>
-            <th className="border p-2">Job Title</th>
-            <th className="border p-2">Department</th>
-            <th className="border p-2">Status</th>
-            <th className="border p-2">Manager</th>
-            <th className="border p-2">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {employees.map((employee) => (
-            <tr key={employee.id}>
-              <td className="border p-2">
-                <Link href={`/employees/${employee.id}`} className="text-blue-500">{employee.fullName}</Link>
-              </td>
-              <td className="border p-2">{employee.employeeId}</td>
-              <td className="border p-2">{employee.jobTitle}</td>
-              <td className="border p-2">{employee.department}</td>
-              <td className="border p-2">{employee.status}</td>
-              <td className="border p-2">{employee.manager?.fullName || 'N/A'}</td>
-              <td className="border p-2">
-                <Link href={`/edit/${employee.id}`} className="text-blue-500 mr-2">Edit</Link>
-                <button onClick={() => handleDelete(employee.id, employee.fullName)} className="text-red-500">Delete</button>
-              </td>
+      <div className="bg-white rounded-lg shadow-md overflow-x-auto">
+        <table className="w-full border-collapse">
+          <thead>
+            <tr className="bg-gray-200 text-gray-700">
+              <th className="p-3 text-left">Name</th>
+              <th className="p-3 text-left">Employee ID</th>
+              <th className="p-3 text-left">Job Title</th>
+              <th className="p-3 text-left">Department</th>
+              <th className="p-3 text-left">Status</th>
+              <th className="p-3 text-left">Manager</th>
+              <th className="p-3 text-left">Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-      <div className="mt-4 flex justify-between">
-        <select value={limit} onChange={(e) => setLimit(Number(e.target.value))} className="border p-2 rounded">
+          </thead>
+          <tbody>
+            {employees?.map((employee) => (
+              <tr key={employee.id} className="hover:bg-gray-50 transition">
+                <td className="p-3">
+                  <Link href={`/employees/${employee.id}`} className="text-indigo-600 hover:underline">
+                    {employee.fullName}
+                  </Link>
+                </td>
+                <td className="p-3 text-gray-600">{employee.employeeId}</td>
+                <td className="p-3 text-gray-600">{employee.jobTitle}</td>
+                <td className="p-3 text-gray-600">{employee.department}</td>
+                <td className="p-3 text-gray-600">{employee.status}</td>
+                <td className="p-3 text-gray-600">{employee.manager?.fullName || 'N/A'}</td>
+                <td className="p-3">
+                  <Link href={`/edit/${employee.id}`} className="text-indigo-600 hover:underline mr-4">
+                    Edit
+                  </Link>
+                  <button
+                    onClick={() => handleDelete(employee.id, employee.fullName)}
+                    className="text-red-600 hover:underline"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div className="mt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <select
+          value={limit}
+          onChange={(e) => setLimit(Number(e.target.value))}
+          className="border text-black border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        >
           <option value={10}>10 per page</option>
           <option value={25}>25 per page</option>
           <option value={50}>50 per page</option>
         </select>
-        <div>
-          <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1} className="p-2">Previous</button>
-          <span className="px-4">Page {page} of {totalPages}</span>
-          <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages} className="p-2">Next</button>
+        <div className="flex gap-2">
+          <button
+            onClick={() => setPage((p) => Math.max(1, p - 1))}
+            disabled={page === 1}
+            className="px-4 py-2 bg-indigo-600 text-white rounded-lg disabled:bg-gray-400 hover:bg-indigo-700 transition"
+          >
+            Previous
+          </button>
+          <span className="px-4 py-2 text-gray-700">Page {page} of {totalPages}</span>
+          <button
+            onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+            disabled={page === totalPages}
+            className="px-4 py-2 bg-indigo-600 text-white rounded-lg disabled:bg-gray-400 hover:bg-indigo-700 transition"
+          >
+            Next
+          </button>
         </div>
       </div>
     </Layout>
