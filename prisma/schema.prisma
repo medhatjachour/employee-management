@@ -1,0 +1,66 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Enums for better type safety
+enum ManagerLevel {
+  JUNIOR
+  SENIOR
+  EXECUTIVE
+}
+
+enum EmployeeStatus {
+  ACTIVE
+  INACTIVE
+}
+
+model Manager {
+  id          Int           @id @default(autoincrement())
+  fullName    String
+  managerId   String        @unique // Consider making this a UUID or standardized format
+  email       String        @unique
+  level       ManagerLevel  // Using enum for restricted values
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt // Added for tracking updates
+  employees   Employee[]    @relation("ManagedEmployees") // Managed employees
+  addedEmployees Employee[] @relation("AddedBy") // Employees added by this manager
+  updatedEmployees Employee[] @relation("UpdatedBy") // Employees updated by this manager
+
+  @@index([email]) // Index for faster lookups
+  @@index([managerId])
+}
+
+model Employee {
+  id          Int            @id @default(autoincrement())
+  fullName    String
+  employeeId  String         @unique // Consider making this a UUID or standardized format
+  email       String         @unique
+  phoneNumber String?        // Optional field
+  jobTitle    String
+  department  String
+  hireDate    DateTime
+  salary      Decimal        @default(0.00) // Changed to Decimal for precise financial calculations
+  status      EmployeeStatus @default(ACTIVE) // Using enum for restricted values
+  profilePic  String?        // Optional field for profile picture URL or path
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  // Foreign keys with proper nullability and relations
+  addedById   Int?
+  updatedById Int?
+  managerId   Int?
+
+  // Relations
+  addedBy     Manager?       @relation("AddedBy", fields: [addedById], references: [id], onDelete: SetNull)
+  updatedBy   Manager?       @relation("UpdatedBy", fields: [updatedById], references: [id], onDelete: SetNull)
+  manager     Manager?       @relation("ManagedEmployees", fields: [managerId], references: [id], onDelete: SetNull)
+
+  @@index([email])       // Index for faster lookups
+  @@index([employeeId])
+  @@index([managerId])   // Index for manager relation
+}
