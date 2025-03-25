@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 
 
 interface EmployeeDetailProps {
-  params: { id: string }; // Explicit type for Client Component
+  readonly params: { id: string }; // Explicit type for Client Component
 }
 export default function EmployeeDetail({ params }:EmployeeDetailProps) {
   const [employee, setEmployee] = useState<Employee | null>(null);
@@ -65,7 +65,7 @@ export default function EmployeeDetail({ params }:EmployeeDetailProps) {
           </p>
           <p>
             <strong className="text-gray-700">Phone:</strong>{' '}
-            <span className="text-gray-600">{employee.phoneNumber || 'N/A'}</span>
+            <span className="text-gray-600">{employee?employee.phoneNumber: 'N/A'}</span>
           </p>
           <p>
             <strong className="text-gray-700">Job Title:</strong>{' '}
@@ -90,7 +90,7 @@ export default function EmployeeDetail({ params }:EmployeeDetailProps) {
           <p>
             <strong className="text-gray-700">Manager:</strong>{' '}
             <span className="text-gray-600">
-              {employee.manager?.fullName || 'N/A'} ({employee.manager?.level || ''})
+              {employee.manager?employee.fullName : 'N/A'} ({employee.manager?employee.manager.level : ''})
             </span>
           </p>
           <p>

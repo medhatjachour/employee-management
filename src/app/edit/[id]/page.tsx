@@ -7,7 +7,7 @@ import { Manager } from '@/app/lib/type';
 interface EmployeeDetailProps {
   params: { id: string }; // Explicit type for Client Component
 }
-export default function EditEmployee({ params }: EmployeeDetailProps) {
+export default function EditEmployee({ params }: Readonly<EmployeeDetailProps>) {
   const [form, setForm] = useState({
     fullName: '', employeeId: '', email: '', phoneNumber: '', jobTitle: '', department: '', hireDate: '', salary: '', status: '', managerId: '', updatedById: '1',
   });

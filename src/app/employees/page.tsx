@@ -56,7 +56,7 @@ export default function Employees() {
       <div
         className={`mb-6 flex flex-col gap-4 ${
           isFilterOpen ? 'block' : 'hidden'
-        } md:flex md:flex-row md:gap-4 md:block`}
+        } md:flex md:flex-row md:gap-4 `}
       >
         <input
           type="text"
@@ -113,7 +113,7 @@ export default function Employees() {
             </tr>
           </thead>
           <tbody>
-            {employees?.map((employee) => (
+            {employees?employees.map((employee) => (
               <tr key={employee.id} className="hover:bg-gray-50 transition border-b border-gray-200">
                 <td className="p-2 truncate">
                   <Link href={`/employees/${employee.id}`} className="text-indigo-600 hover:underline">
@@ -124,7 +124,7 @@ export default function Employees() {
                 <td className="p-2 text-gray-600 truncate hidden sm:table-cell">{employee.jobTitle}</td>
                 <td className="p-2 text-gray-600 truncate hidden sm:table-cell">{employee.department}</td>
                 <td className="p-2 text-gray-600 truncate hidden md:table-cell">{employee.status}</td>
-                <td className="p-2 text-gray-600 truncate hidden md:table-cell">{employee.manager?.fullName || 'N/A'}</td>
+                <td className="p-2 text-gray-600 truncate hidden md:table-cell">{employee.manager?employee.manager.fullName : 'N/A'}</td>
                 <td className="p-2 flex gap-1 whitespace-nowrap">
                   <Link href={`/edit/${employee.id}`} className="px-3 text-indigo-600 hover:underline">
                     Edit
@@ -137,7 +137,7 @@ export default function Employees() {
                   </button>
                 </td>
               </tr>
-            ))}
+            )):(<>LoadingPage</>)}
           </tbody>
         </table>
       </div>
