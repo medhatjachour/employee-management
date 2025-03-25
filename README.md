@@ -1,6 +1,5 @@
 # Employee Management System
-
-A full-stack CRUD app for managing employees and managers, built with Next.js, Prisma, SQLite, and Tailwind CSS.
+A modern web application built with Next.js to manage employee data, visualize workforce statistics, and perform CRUD operations.
 
 ---
 ## 🖼️ **Screenshots**
@@ -10,63 +9,124 @@ A full-stack CRUD app for managing employees and managers, built with Next.js, P
 
 https://doctor-app-eta-one.vercel.app/
 
-![Doctor Profile](https://github.com/medhatjachour/doctorApp/blob/main/samples/2.png?raw=true)
-*Admin  - View doctor details and available slots.*
+![Home Page](https://github.com/medhatjachour/employee-management/blob/main/samples/2.png?raw=true)
+*Employees  - View all the employees with filtration and search option.*
 https://doctor-app-admin-ten.vercel.app/
 
-![Appointment Booking](https://github.com/medhatjachour/doctorApp/blob/main/samples/a1.png?raw=true)
-*Appointment Booking - Select a time slot and confirm your appointment.*
+![Home Page](https://github.com/medhatjachour/employee-management/blob/main/samples/3.png?raw=true)
+*Add employee - input with validation and feedback .*
+# 🏢 Employee Management Dashboard
 
 
-## Setup
-1. Clone the repo: `git clone <your-repo-url>`
-2. Install dependencies: `npm install`
-3. Set up the database: `npx prisma generate`
-35. Set up the database: `npx prisma migrate dev --name init`
-4. (Optional) Seed data: `npm run seed`
-5. Run the app: `npm run dev`
-<!-- npx prisma db seed --preview-feature -->
-## Features
-- Dashboard with stats (employees, new hires, active, managers).
-- Add, view, edit, and delete employees with manager assignments and audit tracking.
-- View managers and their levels (Junior, Senior, Executive).
-- Search, filter (by manager), and paginate employee list.
-- Responsive design with sidebar navigation.
+![Dashboard Preview](https://via.placeholder.com/800x400?text=Employee+Dashboard+Preview)
 
-## Deployment
-Deployed on Vercel: [Live URL](#)
+## ✨ Features
 
-## file structure 
+- **📝 Employee CRUD** - Full Create, Read, Update, Delete functionality
+- **📊 Data Visualization** - Interactive charts for department distribution and hiring trends
+- **🔍 Advanced Filtering** - Filter employees by multiple criteria
+- **📱 Responsive Design** - Works on all device sizes
+- **🔄 Real-time Updates** - Instant feedback on all operations
+- **🔒 Type Safety** - Built with TypeScript
 
-employee-management/
-├── app/
-│   ├── api/
-│   │   ├── employees/
-│   │   │   ├── [id]/
-│   │   │   │   └── route.ts    // CRUD for a single employee
-│   │   │   └── route.ts        // CRUD for all employees
-│   │   └── managers/
-│   │       └── route.ts        // CRUD for managers
-│   ├── employees/
-│   │   ├── [id]/
-│   │   │   └── page.tsx        // View single employee details
-│   │   └── page.tsx            // View all employees
-│   ├── edit/
+## 🛠 Tech Stack
+
+| Category       | Technology   |
+|----------------|------------  |
+| Framework      | Next.js 14   |
+| Language       | TypeScript   |
+| ORM            | Prisma       |
+| Database       | SQL LITE     |
+| Styling        | Tailwind CSS |
+| Visualization  | Chart.js     |
+| Deployment     | Vercel       |
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js 18+
+- SQL LITE  
+- Git
+
+
+### Installation
+1. Clone the repository:
+```bash
+git clone https://github.com/medhatjachour/employee-management.git
+cd employee-management
+```
+
+2. Install dependencies:
+```bash
+npm install 
+```
+3. Set up database:
+```bash
+npx prisma migrate dev --name init
+npx prisma generate
+npm run seed 
+```
+3. run server :
+```bash
+npm run dev
+```
+
+
+## 🌐 API Endpoints
+
+| Endpoint                   | Method | Description                    |
+|----------------------------|--------|--------------------------------|
+| `/api/employees`           | GET    | List all employees             |
+| `/api/employees`           | POST   | Create new employee            |
+| `/api/employees/[id]`      | GET    | Get single employee            |
+| `/api/employees/[id]`      | PUT    | Update employee                |
+| `/api/employees/[id]`      | DELETE | Delete employee                |
+| `/api/dashboard`           | GET    | Get dashboard stats            |
+
+## 📁 Project Structure
+
+```bash
+src/
+├── app/                    # Next.js App Router
+│   ├── api/               # API routes
+│   │   ├── dashboard/     # Dashboard data endpoint
+│   │   │   └── route.ts
+│   │   ├── employees/     # Employee CRUD endpoints
+│   │   │   ├── [id]/      # Dynamic route for single employee
+│   │   │   │   └── route.ts
+│   │   │   └── route.ts
+│   │   └── managers/      # Managers endpoint
+│   │       └── route.ts
+│   ├── employees/         # Employee pages
+│   │   ├── [id]/          # Employee detail page
+│   │   │   └── page.tsx
+│   ├── edit/          # Edit employee page
 │   │   └── [id]/
-│   │       └── page.tsx        // Edit employee page
-│   ├── add/
-│   │   └── page.tsx            // Add employee page
-│   ├── managers/
-│   │   └── page.tsx            // View all managers
-│   └── page.tsx                // Dashboard (home page)
-├── components/
-│   └── Layout.tsx              // Sidebar navigation component
-├── lib/
-│   └── prisma.ts               // Prisma client setup
-├── prisma/
-│   ├── schema.prisma           // Prisma schema
-│   └── seed.ts                 // Optional seed script
-├── styles/
-│   └── globals.css             // Global styles with Tailwind
-├── package.json                // Dependencies and scripts
-└── tsconfig.json               // TypeScript config
+│   │       └── page.tsx
+│   │   └── page.tsx       # Employee list page
+│   ├── managers/    
+│   │   └── page.tsx       # Managers list page
+│   ├── add/    
+│   │   └── page.tsx       # Add Employee page
+│   ├── page.tsx           # Dashboard (root page)
+│   ├── globals.css        # Global styles (Tailwind)
+│   └── layout.tsx         # Root layout
+├── components/            # Reusable UI components
+│   └── Layout.tsx         # Main layout component for navigation
+├── lib/                   # Utilities and types
+│   ├── prisma.ts          # Prisma client setup
+│   └── types.ts           # TypeScript types (Employee, Manager)
+├── public/                # Static assets
+│   ├── favicon.ico
+│   └── logo.png
+├── prisma/                # Prisma schema and migrations
+│   ├── schema.prisma
+│   └── migrations/
+├── .eslintrc.json         # ESLint config
+├── .gitignore
+├── next.config.js         # Next.js config
+├── package.json
+├── postcss.config.js      # PostCSS config for Tailwind
+├── tailwind.config.js     # Tailwind config
+└── tsconfig.json          # TypeScript config
+```

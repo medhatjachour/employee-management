@@ -3,8 +3,8 @@ import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 import Layout from '../../../components/Layout';
-import { Employee } from '@/app/lib/types'; // Fixed import path
 import { toast } from 'react-toastify';
+import { Employee } from '@/app/lib/type';
 
 // Utility function to format datetime in a readable way
 const formatDateTime = (date: Date | string): string => {
