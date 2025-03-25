@@ -202,19 +202,22 @@ export default function AddEmployee() {
           </select>
         </div>
         {error && <p className="text-red-600">{error}</p>}
-        <div className="flex gap-4">
-          <button
-            type="submit"
-            className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
-          >
-            Save
-          </button>
+        <div className="w-full justify-end flex gap-4">
+         
           <button
             type="button"
             onClick={() => router.push('/employees')}
-            className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition"
+            className="cursor-pointer border border-red-700 px-4 py-2 bg-gray-100 text-red-700 hover:bg-red-500 hover:text-white rounded-lg transition"
           >
             Cancel
+          </button>
+          <button
+            type="submit"
+          className="cursor-pointer px-6 py-2 hover:bg-gray-900 hover:text-white rounded-lg text-gray-900 border border-gray-900   transition duration-250"
+            
+
+          >
+            Save
           </button>
         </div>
       </form>

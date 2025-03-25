@@ -85,7 +85,8 @@ export default function Managers() {
         <h1 className="text-3xl font-bold text-gray-800">Managers</h1>
         <button
           onClick={() => setIsModalOpen(true)}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-200 shadow-md"
+          className="cursor-pointer px-4 py-2 hover:bg-gray-900 hover:text-white rounded-lg text-gray-900 border border-gray-900   transition duration-250"
+
         >
           + Add Manager
         </button>
@@ -106,10 +107,10 @@ export default function Managers() {
             </div>
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label htmlFor="fullNameManger" className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                <label  className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
                 <input
                   type="text"
-                  name="fullNameManger"
+                  name="fullName"
                   value={formData.fullName}
                   onChange={handleChange}
                   className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-150"
@@ -130,10 +131,10 @@ export default function Managers() {
                 />
               </div>
               <div>
-                <label htmlFor='emailManger' className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
                 <input
                   type="email"
-                  name="emailManger"
+                  name="email"
                   value={formData.email}
                   onChange={handleChange}
                   className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-150"
@@ -142,7 +143,7 @@ export default function Managers() {
                 />
               </div>
               <div>
-                <label htmlFor='' className="block text-sm font-medium text-gray-700 mb-2">Level</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Level</label>
                 <div className="flex space-x-4">
                   {['JUNIOR', 'SENIOR', 'EXECUTIVE'].map((level) => (
                     <label key={level} className="flex items-center space-x-2">
@@ -160,17 +161,18 @@ export default function Managers() {
                 </div>
               </div>
               {error && <p className="text-red-600 text-sm">{error}</p>}
-              <div className="flex justify-end space-x-3">
+              <div className="flex justify-end space-x-3 gap-2">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition duration-150"
+                  className=" cursor-pointer px-4 py-2 text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition duration-150"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-150"
+          className="cursor-pointer px-4 py-2 hover:bg-gray-900 hover:text-white rounded-lg text-gray-900 border border-gray-900   transition duration-250"
+
                 >
                   Add Manager
                 </button>

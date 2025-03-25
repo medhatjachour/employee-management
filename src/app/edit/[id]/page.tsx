@@ -74,8 +74,10 @@ export default function EditEmployee() {
         </select>
         {error && <p className="text-red-500">{error}</p>}
         <div className="space-x-4">
-          <button type="submit" className="bg-green-600 text-white px-5 py-2 rounded hover:bg-green-700 cursor-pointer ">Save</button>
-          <button type="button" onClick={() => router.push('/employees')} className="bg-gray-300 p-2 rounded hover:bg-gray-400  cursor-pointer ">Cancel</button>
+          
+          <button type="submit" className="cursor-pointer px-6 py-2 hover:bg-gray-900 hover:text-white rounded-lg text-gray-900 border border-gray-900 ">Save</button>
+          <button type="button" onClick={() => router.push('/employees')}             className="cursor-pointer border border-red-700 px-4 py-2 bg-gray-100 text-red-700 hover:bg-red-500 hover:text-white rounded-lg transition"
+          >Cancel</button>
         </div>
       </form>
     </Layout>

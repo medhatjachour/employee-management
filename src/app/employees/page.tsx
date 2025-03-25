@@ -62,7 +62,7 @@ export default function Employees() {
       <div className="md:hidden mb-4">
         <button
           onClick={() => setIsFilterOpen(!isFilterOpen)}
-          className="w-full py-2 px-4 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition flex items-center justify-center gap-2"
+          className="cursor-pointer px-6 py-2 hover:bg-gray-900 hover:text-white rounded-lg text-gray-900 border border-gray-900   transition duration-250 w-full py-2 px-4   rounded-lg hover:bg-indigo-700 transition flex items-center justify-center gap-2"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
