@@ -6,7 +6,12 @@ import Layout from '../../../components/Layout';
 import { Employee } from '@/app/lib/type';
 import { toast } from 'react-toastify';
 
-export default function EmployeeDetail({ params }: { params: { id: string } }) {
+
+
+interface EmployeeDetailProps {
+  params: { id: string }; // Explicit type for Client Component
+}
+export default function EmployeeDetail({ params }:EmployeeDetailProps) {
   const [employee, setEmployee] = useState<Employee | null>(null);
   const router = useRouter();
   const { id } = params; // Destructure id directly since it's not a Promise in Client Components

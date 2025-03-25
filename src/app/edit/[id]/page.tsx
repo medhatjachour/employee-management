@@ -4,7 +4,10 @@ import { useRouter } from 'next/navigation';
 import Layout from '../../../components/Layout';
 import { Manager } from '@/app/lib/type';
 
-export default function EditEmployee({ params }: { params: { id: string } }) {
+interface EmployeeDetailProps {
+  params: { id: string }; // Explicit type for Client Component
+}
+export default function EditEmployee({ params }: EmployeeDetailProps) {
   const [form, setForm] = useState({
     fullName: '', employeeId: '', email: '', phoneNumber: '', jobTitle: '', department: '', hireDate: '', salary: '', status: '', managerId: '', updatedById: '1',
   });
