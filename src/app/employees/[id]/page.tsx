@@ -109,13 +109,13 @@ export default function EmployeeDetail({ params }:EmployeeDetailProps) {
         <div className="mt-6 flex gap-4">
           <Link
             href={`/edit/${employee.id}`}
-            className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
+            className="px-10 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
           >
             Edit
           </Link>
           <button
             onClick={handleDelete}
-            className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
+            className="px-10 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
           >
             Delete
           </button>

@@ -126,12 +126,12 @@ export default function Employees() {
                 <td className="p-2 text-gray-600 truncate hidden md:table-cell">{employee.status}</td>
                 <td className="p-2 text-gray-600 truncate hidden md:table-cell">{employee.manager?.fullName || 'N/A'}</td>
                 <td className="p-2 flex gap-1 whitespace-nowrap">
-                  <Link href={`/edit/${employee.id}`} className="text-indigo-600 hover:underline">
+                  <Link href={`/edit/${employee.id}`} className="px-3 text-indigo-600 hover:underline">
                     Edit
                   </Link>
                   <button
                     onClick={() => handleDelete(employee.id, employee.fullName)}
-                    className="text-red-600 hover:underline"
+                    className="px-3 text-red-600 hover:underline"
                   >
                     Delete
                   </button>
