@@ -2,6 +2,22 @@
 
 A full-stack CRUD app for managing employees and managers, built with Next.js, Prisma, SQLite, and Tailwind CSS.
 
+---
+## 🖼️ **Screenshots**
+
+![Home Page](https://github.com/medhatjachour/employee-management/blob/main/samples/1.png?raw=true)
+*Home Page - Dashboard to view data.*
+
+https://doctor-app-eta-one.vercel.app/
+
+![Doctor Profile](https://github.com/medhatjachour/doctorApp/blob/main/samples/2.png?raw=true)
+*Admin  - View doctor details and available slots.*
+https://doctor-app-admin-ten.vercel.app/
+
+![Appointment Booking](https://github.com/medhatjachour/doctorApp/blob/main/samples/a1.png?raw=true)
+*Appointment Booking - Select a time slot and confirm your appointment.*
+
+
 ## Setup
 1. Clone the repo: `git clone <your-repo-url>`
 2. Install dependencies: `npm install`

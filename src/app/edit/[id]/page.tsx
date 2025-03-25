@@ -47,7 +47,7 @@ export default function EditEmployee() {
 
   return (
     <Layout>
-      <h1 className="text-3xl font-bold mb-6">Edit Employee</h1>
+      <h1 className="text-3xl text-gray-600 font-bold mb-6">Edit Employee</h1>
       <form onSubmit={handleSubmit} className="text-black space-y-4 max-w-lg">
         <input type="text" value={form.fullName} onChange={(e) => setForm({ ...form, fullName: e.target.value })} className="border p-2 w-full rounded" required />
         <input type="text" value={form.employeeId} onChange={(e) => setForm({ ...form, employeeId: e.target.value })} className="border p-2 w-full rounded" required />
@@ -74,8 +74,8 @@ export default function EditEmployee() {
         </select>
         {error && <p className="text-red-500">{error}</p>}
         <div className="space-x-4">
-          <button type="submit" className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Save</button>
-          <button type="button" onClick={() => router.push('/employees')} className="bg-gray-300 p-2 rounded hover:bg-gray-400">Cancel</button>
+          <button type="submit" className="bg-green-600 text-white px-5 py-2 rounded hover:bg-green-700 cursor-pointer ">Save</button>
+          <button type="button" onClick={() => router.push('/employees')} className="bg-gray-300 p-2 rounded hover:bg-gray-400  cursor-pointer ">Cancel</button>
         </div>
       </form>
     </Layout>
