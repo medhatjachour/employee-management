@@ -9,7 +9,16 @@ export interface Manager {
     added?: Employee[]; // Optional relation
     updated?: Employee[]; // Optional relation
   }
-  
+  // lib/type.ts
+export type ManagerType = {
+  id: number;
+  fullName: string;
+  managerId: string;
+  email: string;
+  level: 'JUNIOR' | 'SENIOR' | 'EXECUTIVE';
+  createdAt: string; // Adjust based on your needs (e.g., Date if parsing)
+  updatedAt: string;
+};
   export interface Employee {
     id: number;
     fullName: string;
