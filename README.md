@@ -82,6 +82,8 @@ npm run dev
 | `/api/employees/[id]`      | GET    | Get single employee            |
 | `/api/employees/[id]`      | PUT    | Update employee                |
 | `/api/employees/[id]`      | DELETE | Delete employee                |
+| `/api/managers`            | GET    | List all managers             |
+| `/api/managers`            | POST   | Create new manager            |
 | `/api/dashboard`           | GET    | Get dashboard stats            |
 
 ## 📁 Project Structure
