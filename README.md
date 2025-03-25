@@ -1,4 +1,4 @@
-# Employee Management System
+# 🏢 Employee Management Dashboard
 A modern web application built with Next.js to manage employee data, visualize workforce statistics, and perform CRUD operations.
 
 ---
@@ -7,18 +7,19 @@ A modern web application built with Next.js to manage employee data, visualize w
 ![Home Page](https://github.com/medhatjachour/employee-management/blob/main/samples/1.png?raw=true)
 *Home Page - Dashboard to view data.*
 
-https://doctor-app-eta-one.vercel.app/
+https://employee-management-theta-amber.vercel.app/
 
 ![Home Page](https://github.com/medhatjachour/employee-management/blob/main/samples/2.png?raw=true)
 *Employees  - View all the employees with filtration and search option.*
-https://doctor-app-admin-ten.vercel.app/
+https://employee-management-theta-amber.vercel.app/employee
+
 
 ![Home Page](https://github.com/medhatjachour/employee-management/blob/main/samples/3.png?raw=true)
 *Add employee - input with validation and feedback .*
-# 🏢 Employee Management Dashboard
+https://employee-management-theta-amber.vercel.app/add
 
 
-![Dashboard Preview](https://via.placeholder.com/800x400?text=Employee+Dashboard+Preview)
+![live Preview](https://employee-management-theta-amber.vercel.app/)
 
 ## ✨ Features
 
