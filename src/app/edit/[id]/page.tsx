@@ -1,26 +1,27 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter,useParams } from 'next/navigation';
 import Layout from '../../../components/Layout';
 import { Manager } from '@/app/lib/type';
 
-interface EmployeeDetailProps {
-  params: { id: string }; // Explicit type for Client Component
-}
-export default function EditEmployee({ params }: Readonly<EmployeeDetailProps>) {
+
+
+export default function EditEmployee() {
   const [form, setForm] = useState({
     fullName: '', employeeId: '', email: '', phoneNumber: '', jobTitle: '', department: '', hireDate: '', salary: '', status: '', managerId: '', updatedById: '1',
   });
   const [error, setError] = useState('');
   const [managers, setManagers] = useState<Manager[]>([]);
   const router = useRouter();
+  const params = useParams();
+  const { id } = params as { id: string };
 
   useEffect(() => {
     fetch('/api/managers')
       .then((res) => res.json())
       .then((data) => setManagers(data));
-    if (params.id) {
-      fetch(`/api/employees/${params.id}`)
+    if (id) {
+      fetch(`/api/employees/${id}`)
         .then((res) => res.json())
         .then((data) => setForm({
           ...data,
@@ -30,11 +31,11 @@ export default function EditEmployee({ params }: Readonly<EmployeeDetailProps>) 
           updatedById: data.updatedById?.toString() || '1',
         }));
     }
-  }, [params.id]);
+  }, [id]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const res = await fetch(`/api/employees/${params.id}`, {
+    const res = await fetch(`/api/employees/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(form),

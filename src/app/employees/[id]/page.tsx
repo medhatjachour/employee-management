@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter,useParams } from 'next/navigation';
 import Link from 'next/link';
 import Layout from '../../../components/Layout';
 import { Employee } from '@/app/lib/type';
@@ -8,13 +8,13 @@ import { toast } from 'react-toastify';
 
 
 
-interface EmployeeDetailProps {
-  readonly params: { id: string }; // Explicit type for Client Component
-}
-export default function EmployeeDetail({ params }:EmployeeDetailProps) {
+
+export default function EmployeeDetail() {
   const [employee, setEmployee] = useState<Employee | null>(null);
   const router = useRouter();
-  const { id } = params; // Destructure id directly since it's not a Promise in Client Components
+  const params = useParams();
+  const { id } = params as { id: string };
+
 
   useEffect(() => {
     if (id) {
