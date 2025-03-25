@@ -44,7 +44,7 @@ export default function EditEmployee({ params }: { params: { id: string } }) {
   return (
     <Layout>
       <h1 className="text-3xl font-bold mb-6">Edit Employee</h1>
-      <form onSubmit={handleSubmit} className="space-y-4 max-w-lg">
+      <form onSubmit={handleSubmit} className="text-black space-y-4 max-w-lg">
         <input type="text" value={form.fullName} onChange={(e) => setForm({ ...form, fullName: e.target.value })} className="border p-2 w-full rounded" required />
         <input type="text" value={form.employeeId} onChange={(e) => setForm({ ...form, employeeId: e.target.value })} className="border p-2 w-full rounded" required />
         <input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="border p-2 w-full rounded" required />

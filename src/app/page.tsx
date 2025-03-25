@@ -13,7 +13,7 @@ export default function Dashboard() {
     ]).then(([employeeData, managerData]: [{ employees: Employee[] }, Manager[]]) => {
       const totalEmployees = employeeData.employees.length;
       const newHires = employeeData.employees.filter((e) => new Date(e.hireDate).getMonth() === new Date().getMonth()).length;
-      const active = employeeData.employees.filter((e) => e.status === 'Active').length;
+      const active = employeeData.employees.filter((e) => e.status === 'ACTIVE').length;
       const totalManagers = managerData.length;
       setStats({ totalEmployees, newHires, active, totalManagers });
     });

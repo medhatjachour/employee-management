@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Layout from '../../../components/Layout';
-import { Employee } from '@/app/lib/types'; // Fixed typo from 'type' to 'types'
+import { Employee } from '@/app/lib/type';
+import { toast } from 'react-toastify';
 
 export default function EmployeeDetail({ params }: { params: { id: string } }) {
   const [employee, setEmployee] = useState<Employee | null>(null);
@@ -28,10 +29,15 @@ export default function EmployeeDetail({ params }: { params: { id: string } }) {
   if (!employee) return <Layout><p className="text-gray-600">Loading...</p></Layout>;
 
   const handleDelete = async () => {
+
     if (confirm(`Delete ${employee.fullName}?`)) {
+      
+   
       try {
         const res = await fetch(`/api/employees/${id}`, { method: 'DELETE' });
         if (!res.ok) throw new Error('Failed to delete employee');
+      toast.done(`Deleted ${employee.fullName}...`);
+
         router.push('/employees');
       } catch (error) {
         console.error('Error deleting employee:', error);
@@ -42,7 +48,7 @@ export default function EmployeeDetail({ params }: { params: { id: string } }) {
   return (
     <Layout>
       <h1 className="text-3xl font-bold text-gray-800 mb-6">{employee.fullName}</h1>
-      <div className="bg-white p-6 rounded-lg shadow-md max-w-2xl">
+      <div className="text-black bg-white p-6 rounded-lg shadow-md max-w-2xl">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <p>
             <strong className="text-gray-700">Employee ID:</strong>{' '}

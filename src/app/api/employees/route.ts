@@ -2,13 +2,37 @@ import prisma from '@/app/lib/prisma';
 import { NextRequest, NextResponse } from 'next/server';
 import { Prisma } from '@prisma/client';
 
+type EmployeeStatus = 'ACTIVE' | 'INACTIVE';
+function normalizeStatus(status: string): EmployeeStatus {
 // Utility function to normalize status to EmployeeStatus enum
-function normalizeStatus(status: string): Prisma.EmployeeStatus {
+// function normalizeStatus(status: string): Prisma.EmployeeStatus {
   const upperStatus = status.toUpperCase();
   if (upperStatus === 'ACTIVE' || upperStatus === 'INACTIVE') {
-    return upperStatus as Prisma.EmployeeStatus;
+    return upperStatus as EmployeeStatus;
   }
   throw new Error('Invalid status value. Must be "ACTIVE" or "INACTIVE"');
+}
+
+// Utility function to extract error message
+function getErrorMessage(error: unknown): string {
+  if (error instanceof Prisma.PrismaClientKnownRequestError) {
+    // Handle specific Prisma errors
+    switch (error.code) {
+      case 'P2002':
+        return `Duplicate entry: ${error.meta?.target || 'field'} already exists`;
+      case 'P2003':
+        return 'Invalid foreign key reference';
+      case 'P2025':
+        return 'Record not found';
+      default:
+        return `Database error: ${error.message}`;
+    }
+  } else if (error instanceof Prisma.PrismaClientValidationError) {
+    return `Validation error: ${error.message}`;
+  } else if (error instanceof Error) {
+    return error.message; // Generic error message
+  }
+  return 'An unexpected error occurred';
 }
 
 export async function GET(req: NextRequest) {
@@ -28,7 +52,7 @@ export async function GET(req: NextRequest) {
       { jobTitle: { contains: search } },
     ],
     ...(department && { department }),
-    ...(status && { status: normalizeStatus(status) }), // Normalize status
+    ...(status && { status: normalizeStatus(status) }),
     ...(managerId && { managerId: Number(managerId) }),
   };
 
@@ -46,7 +70,8 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ employees, total, pages: Math.ceil(total / limit) });
   } catch (error) {
     console.error('GET /api/employees error:', error);
-    return NextResponse.json({ error: 'Failed to fetch employees' }, { status: 500 });
+    const errorMessage = getErrorMessage(error);
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
 
@@ -93,7 +118,7 @@ export async function POST(req: NextRequest) {
         department,
         hireDate: new Date(hireDate),
         salary: typeof salary === 'string' ? parseFloat(salary) : salary || 0.00,
-        status: status ? normalizeStatus(status) : 'ACTIVE', // Normalize or default to 'ACTIVE'
+        status: status ? normalizeStatus(status) : 'ACTIVE',
         managerId: managerId ? Number(managerId) : null,
         addedById: Number(addedById),
         updatedById: Number(addedById),
@@ -103,6 +128,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(employee, { status: 201 });
   } catch (error) {
     console.error('POST /api/employees error:', error);
-    return NextResponse.json({ error: 'Failed to create employee' }, { status: 500 });
+    const errorMessage = getErrorMessage(error);
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }

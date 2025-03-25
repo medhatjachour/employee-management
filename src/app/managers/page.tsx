@@ -20,8 +20,8 @@ export default function Managers() {
           <thead>
             <tr className="bg-gray-200 text-gray-700">
               <th className="p-3 text-left">Name</th>
-              <th className="p-3 text-left">Manager ID</th>
-              <th className="p-3 text-left">Email</th>
+              <th className="p-3 text-left  hidden sm:table-cell">Manager ID</th>
+              <th className="p-3 text-left  hidden sm:table-cell">Email</th>
               <th className="p-3 text-left">Level</th>
             </tr>
           </thead>
@@ -29,8 +29,8 @@ export default function Managers() {
             {managers.map((manager) => (
               <tr key={manager.id} className="hover:bg-gray-50 transition">
                 <td className="p-3 text-gray-600">{manager.fullName}</td>
-                <td className="p-3 text-gray-600">{manager.managerId}</td>
-                <td className="p-3 text-gray-600">{manager.email}</td>
+                <td className="p-3 text-gray-600  hidden sm:table-cell">{manager.managerId}</td>
+                <td className="p-3 text-gray-600  hidden sm:table-cell">{manager.email}</td>
                 <td className="p-3 text-gray-600">{manager.level}</td>
               </tr>
             ))}
